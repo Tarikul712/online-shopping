@@ -14,8 +14,17 @@
         <spring.version>4.3.6.RELEASE</spring.version>
   </properties>
   
- 
+  
   <dependencies>
+
+	<!-- Link backend project -->
+
+	<dependency>
+		<groupId>com.bjit</groupId>
+		<artifactId>shoppingbackend</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency> 
+  
   
     <!---java EE Api- -->
   
@@ -25,9 +34,6 @@
     <version>${javaee.version}</version>
     <scope>provided</scope>
 </dependency>
-  
-  
-  
   
   <!--junit-->
     <dependency>

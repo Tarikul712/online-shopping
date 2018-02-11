@@ -5,16 +5,31 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bjit.shoppingbackend.dao.CategoryDAO;
+import com.bjit.shoppingbackend.dto.Category;
+import com.bjit.shopppingbackend.daoimpl.CategoryDAOImpl;
+
 @Controller
 
 public class PageController {
 	
+	
+	
+	private static CategoryDAO categoryDAO;
+	
+	static {
+		categoryDAO = new CategoryDAOImpl();
+	}
 	
 	@RequestMapping(value= {"/","/home","/index"})
     public ModelAndView index() {
 		
 		ModelAndView mv = new ModelAndView("page");
 		mv.addObject("title","Home");
+		
+		//passing the list of categories
+		mv.addObject("categories",categoryDAO.list());
+		
 		mv.addObject("userClickHome",true);
 		return mv;
 	}	
@@ -36,5 +51,43 @@ public class PageController {
 		mv.addObject("userClickContact",true);
 		return mv;
 	}
+	
+	/*
+	 * Methods to load all the products and based on category
+	 * */
+	
+	@RequestMapping(value= {"/show/all/products"})
+    public ModelAndView showAllProducts() {
+		ModelAndView mv = new ModelAndView("page");
+		mv.addObject("title","All produucts");
+		
+		//passing the list of categories
+		mv.addObject("categories",categoryDAO.list());
+		
+		mv.addObject("userClickAllProducts",true);
+		return mv;
+	}
+	
+	
+	@RequestMapping(value= {"/show/category/{id}/products"})
+    public ModelAndView showCategoryProducts(@PathVariable("id")int id) {
+		ModelAndView mv = new ModelAndView("page");
+		//category DAO to fetch a single category
+		Category category=null;
+		category=categoryDAO.get(id);
+		
+		mv.addObject("title",category.getName());
+		
+		//passing the list of categories
+		mv.addObject("categories",categoryDAO.list());
+		
+		//passing the single category object
+		mv.addObject("category",category);
+		
+		mv.addObject("userClickCategoryProducts",true);
+		return mv;
+	}
+	
+	
 	
 }
