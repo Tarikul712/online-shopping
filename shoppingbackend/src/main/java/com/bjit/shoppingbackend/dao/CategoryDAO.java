@@ -6,7 +6,7 @@ import com.bjit.shoppingbackend.dto.Category;
 
 public interface CategoryDAO {
 
-	
+
 	
 	Category get(int id);
 	List<Category> list();
