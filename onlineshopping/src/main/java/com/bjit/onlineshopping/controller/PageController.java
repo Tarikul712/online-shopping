@@ -1,5 +1,6 @@
 package com.bjit.onlineshopping.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,7 +8,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bjit.shoppingbackend.dao.CategoryDAO;
 import com.bjit.shoppingbackend.dto.Category;
-import com.bjit.shopppingbackend.daoimpl.CategoryDAOImpl;
 
 @Controller
 
@@ -15,11 +15,8 @@ public class PageController {
 	
 	
 	
-	private static CategoryDAO categoryDAO;
-	
-	static {
-		categoryDAO = new CategoryDAOImpl();
-	}
+	@Autowired
+	private CategoryDAO categoryDAO;
 	
 	@RequestMapping(value= {"/","/home","/index"})
     public ModelAndView index() {
@@ -69,12 +66,12 @@ public class PageController {
 	}
 	
 	
-	@RequestMapping(value= {"/show/category/{id}/products"})
-    public ModelAndView showCategoryProducts(@PathVariable("id")int id) {
+	@RequestMapping(value= {"/show/category/{categoryId}/products"})
+    public ModelAndView showCategoryProducts(@PathVariable("categoryId") int categoryId) {
 		ModelAndView mv = new ModelAndView("page");
 		//category DAO to fetch a single category
 		Category category=null;
-		category=categoryDAO.get(id);
+		category=categoryDAO.get(categoryId);
 		
 		mv.addObject("title",category.getName());
 		
